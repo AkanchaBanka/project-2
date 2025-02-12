@@ -9,12 +9,13 @@ import { addUser } from '../utils/userSlice';
 import { removeUser } from '../utils/userSlice';
 import { useDispatch } from 'react-redux';
 import { LOGO } from '../utils/constant';
+import { toggleGptSearchView } from '../utils/gptSlice';
 
 const Header = () => {
 
   const navigate = useNavigate();
   const user = useSelector(store => store.user);
-
+  
   const handleSignOut = () =>{
     signOut(auth)
     .then(() => {})
@@ -23,6 +24,11 @@ const Header = () => {
     });    
   }
   const dispatch = useDispatch();
+
+  const handleGPTSearchClick = () => {
+    console.log('Toggle dispatched')
+    dispatch(toggleGptSearchView());
+  }
 
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -54,17 +60,24 @@ const Header = () => {
           src = {LOGO}
           alt="logo"
         />
-        { user && <div className="flex p-2">
-          <img
-            className='w-12 h-12'
-            src= {user?.photoURL}
-            alt="usericon"
-          />
-          <button className="font-bold text-white"
-            onClick = {handleSignOut}>
-            (SignOut)
-          </button>
-        </div> }
+        {user && 
+          <div className="flex p-2">
+            <button 
+              className='py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg'
+              onClick={handleGPTSearchClick}> 
+                GPT Search 
+            </button>
+            <img
+              className='w-12 h-12'
+              src= {user?.photoURL}
+              alt="usericon"
+            />
+            <button className="font-bold text-white"
+              onClick = {handleSignOut}>
+              (SignOut)
+            </button>
+          </div> 
+        }
     </div>
   )
 }
