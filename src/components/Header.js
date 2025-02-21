@@ -15,6 +15,7 @@ const Header = () => {
 
   const navigate = useNavigate();
   const user = useSelector(store => store.user);
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
   
   const handleSignOut = () =>{
     signOut(auth)
@@ -26,7 +27,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const handleGPTSearchClick = () => {
-    console.log('Toggle dispatched')
+    console.log('Toggle dispatched');
     dispatch(toggleGptSearchView());
   }
 
@@ -62,11 +63,12 @@ const Header = () => {
         />
         {user && 
           <div className="flex p-2">
-            <button 
-              className='py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg'
-              onClick={handleGPTSearchClick}> 
-                GPT Search 
-            </button>
+            <button
+            className="py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg"
+            onClick={handleGPTSearchClick}
+          >
+            {showGptSearch ? "Homepage" : "GPT Search"}
+          </button>
             <img
               className='w-12 h-12'
               src= {user?.photoURL}
